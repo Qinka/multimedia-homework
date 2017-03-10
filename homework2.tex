@@ -1,0 +1,15 @@
+\documentclass{ctexart}
+
+\title{网络多媒体作业 2}
+\author{李约瀚 \\ 14130140331 \\ qinka@qinka.pw \\ qinka@live.com}
+
+\begin{document}
+    \maketitle
+    \section*{6.5-1}
+    \paragraph{(a)} 8位是指声音采集用户播放时，A/D或D/A的数字信号是由8位比特组成。
+    \paragraph{(b)} 
+    $$SQNR=20\log_{10}\frac{V_{signal}}{V_{quan\_noise}}=20\log_{10}\frac{2^{N-1}}{\frac{1}{2}}=20\times N \times \log2=6.02N=48.16(dB)$$
+    \section*{6.5-6}
+    根据 $SQNR$ 的公式，对于一般的 $$SQNR=6.02N+1.76=60dB$$,可以求解得到 $N=9.67$。
+    则由此看 10位的量化与刚好可以勉强量化，而16位则能满足要求。
+\end{document}
