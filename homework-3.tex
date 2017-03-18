@@ -1,0 +1,42 @@
+\documentclass{ctexart}
+
+\author{李约瀚 \\ 14130140331 \\ qinka@live.com \\ qinka@qinka.pw}
+
+\title{Multimedia Homework 3}
+
+\usepackage{listings}
+
+\begin{document}
+\maketitle
+
+\section{Chapter 3}
+
+Usually each pixel can be encoded with a 24-bit data, and each of RED, BLUE, and GREEN has 8 bits. But people are more sensitive to red and green than blue.
+So we can allocate more bits to red and green. In fact, if we define $s$ as the level of sensitivity. There is a conclusion:
+$$s_{red} = s_{green} = 1.5s_{blue}$$
+Red and green will get 3 point for weigth for each, and blue will get 2. So each point of weight will get 3 bits.
+Then red should have 9 bits, so green does, and blue should have 6 bits.
+
+\section{Chapter 4}
+
+According to (4.6), it from $\overline{x}(\lambda)$, $\overline{y}(\lambda)$, and $\overline{z}(\lambda)$.
+And the code for count is here:
+\begin{lstlisting}[language=Matlab]
+function colors (x,y,z,be,ed)
+  waves = (be:ed)';
+  figure;
+  plot(waves,x,waves,y,waves,z);
+  figure;
+  plot3(x,y,z,'*');
+  d = x + y + z;
+  xy = zeros(ed-bg+1,3);
+  xyz = [x,y,z];
+  for i = 1:3
+    xy(:,i) = xyz(:,k) ./ d;
+  end
+  figure;
+  plot3(xy(:,1),xy(:,2),xy(:,3),'*');
+end
+\end{lstlisting}
+
+\end{document}

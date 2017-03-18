@@ -1,6 +1,8 @@
 ## For LaTeX
 
+*\~
 *.aux
 *.log
 *.pdf
 *.synctex.gz
+auto
