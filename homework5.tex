@@ -1,0 +1,138 @@
+\documentclass{article}
+
+\usepackage{xeCJK}
+\setCJKmainfont{SimSun}
+
+\title{Network Multimedia Homework V}
+\author{李约瀚 \\ 14130140331 \\ qinka@live.com \\ me@qinka.pro}
+
+%% the definitions of the definition
+%%%  Books
+\def\vFundamentalsOfMutimedia{\textit{Fundamentals of Multimedia}}
+\def\vConcreteMathematics{\textit{Concrete Mathematics}}
+
+\begin{document}
+    \maketitle
+    
+    \section{No.5, Chapter 8}
+    According to \vFundamentalsOfMutimedia, the Eq.(8.15) shows the transforming of the \verb|DCT|.
+    For the 2-D \verb|DCT|, the equlation is 
+    \begin{equation}
+    \label{eq:dct:baseeq}
+    F(u,v) = \frac{2C(u)C(v)}{\sqrt{MN}}\sum\limits_{i=0}^{M-1}\sum\limits_{j=0}^{N-1}\cos\frac{(2i+1)u\pi}{2M}\cos\frac{(2j+1)v\pi}{2N}f(i,j)
+    \end{equation}
+    
+    where the $i,u = 0,1,\dots,M-1$, $j,v = 0,1,\dots,N-1$, and the constant C(u) and C(v) are defined as:
+    \begin{equation}
+    C(\xi) = \left\{
+    \begin{array}{cl}
+    \frac{\sqrt{2}}{2} & \xi = 0, \\
+    1 & otherwise.
+    \end{array}
+    \right.
+    \end{equation}
+    
+    \subsection{Question (a)}
+    
+    The largest coefficient of \verb|DCT| is the \verb|DC| value, which is $8 \times 255 = 2040$.
+    The value $255$ means that each value of the image is the $255$, which is usually
+    a white image. And the other \verb|AC| values are the zeros.
+    
+    \subsection{Question (b)}
+    
+    Because of the value of every pixel of the image is same, the \verb|AC| values in the \verb|DCT| are zeros. 
+    When the value of the pixel is change, they are still same. So there is no effect on the $F[2.3]$, and so other \verb|AC| values are.
+    
+    \subsection{Question (c)}
+    
+    Such operation do reduce bits. For example, if there is an image, whose range of
+    the value is 100 ~ 156, when we encode such image we might need a lots of bits,
+    might say 8 bits. However when we transform the image to a \textbf{zero mean image}
+    we will still need some bits but less, might say 6 bits.
+    
+    \subsection{Question (d)}
+    
+    According to the decoding, the best but simple way is adding the $128$ back.
+    
+    \section{No.2, Chapter 9}
+    
+    So the get the equation:
+    \begin{equation}
+    \label{eq:dctn:base}
+        F_N(u,v) =
+            \frac{2C(u)C(v)}{N}
+            \sum\limits_{i=0}^{N-1}\sum\limits_{j=0}^{N-1}
+            \cos\frac{(2i+1)u\pi}{2N}\cos\frac{(2j+1)v\pi}{2N}
+            f(i,j)
+    \end{equation} 
+    where the $i,u = 0,1,\dots,N-1$, $j,v = 0,1,\dots,N-1$, and the constant C(u) and C(v) are defined as:
+    \begin{equation}
+        C(\xi) = \left\{
+        \begin{array}{cl}
+        \frac{\sqrt{2}}{2} & \xi = 0, \\
+        1 & otherwise.
+        \end{array}
+        \right.
+    \end{equation}
+    
+    According to \vConcreteMathematics's Eq.(2.28), the Eq.(\ref{eq:dctn:base}) will
+    be transform to
+    \begin{equation}
+        F_N(u,v)=%
+            \frac{2C(u)C(v)}{N}%
+            \left(\sum\limits_{p=0}^{N-1}\cos\frac{(2p+1)u\pi}{2N}\right)^2%
+            f(i,j)
+    \end{equation}
+    
+    For $\widetilde{F_2}$, the equation will be
+    $$
+        \widetilde{F_2}(u,v) =
+            C(u)C(v)
+            \left(\sum\limits_{p=0}^{1}\cos\frac{(2p+1)u\pi}{4}\right)^2%
+    $$
+    That means
+    \begin{equation}
+        \label{eq:dctn:tt}
+        \widetilde{F_2}(u,v) = 
+            C(u)C(v)
+            \left(
+                \cos\frac{u\pi}{4}^2f(0,0)
+              + 2\cos\frac{u\pi}{4}\cos\frac{3u\pi}{4}
+              + \cos\frac{3u\pi}{4}^2f(1,1)
+            \right)
+    \end{equation}
+    
+    So we can evaluate the $F_2$, according to Eq.(\ref{eq:dctn:tt})
+    \begin{equation}
+    \label{eq:dctn:f2}
+    F_2(u,v) = \left\{
+        \begin{array}{rl}
+        0 & u=0,\,v=0, \\
+        0 & u=1,\,v=0, \\
+        200 & u=0,\,v=1, \\
+        0 & u=1,\,v=1. 
+        \end{array}
+    \right.
+    \end{equation}
+    
+    According to Eq.(\ref{eq:dctn:tt}) we can get the result
+    $$
+        F_2(u,v):\, \left\{ \begin{array}{rrrrrrrr}
+        0 & 200 & 0 & 200 & 0 & 200 & 0 & 200 \\
+        0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\
+        0 & 200 & 0 & 200 & 0 & 200 & 0 & 200 \\
+        0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\
+        0 & 200 & 0 & 200 & 0 & 200 & 0 & 200 \\
+        0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\
+        0 & 200 & 0 & 200 & 0 & 200 & 0 & 200 \\
+        0 & 0 & 0 & 0 & 0 & 0 & 0 & 0         
+        \end{array} \right\}
+    $$
+    
+    
+    
+    
+    
+    
+    
+\end{document}
