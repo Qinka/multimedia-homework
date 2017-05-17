@@ -2,11 +2,13 @@
 
 \usepackage{xeCJK}
 \setCJKmainfont{SimSun}
+\usepackage{xcolor}
+\usepackage{hyperref}
 
 \title{Network Multimedia Homework V\thanks{%
         This homework report is source-opened on
-        \href{https://github.com/Qinka/fgpa-homework}{GitHub:Qinka/fpga-homework}.
-        Because one of my friend's Java homework, which is also opened on GitHub, was plagiarized by others, I just want declare the my, 李约瀚, copyleft(right) of the report of my homework.
+        \href{https://github.com/Qinka/multimedia-homework}{GitHub:Qinka/multimedia-homework}.
+        Because one of my friend's Java homework, which is also opened on GitHub, was plagiarized by others, I just want declare the my, 李约瀚, copyleft(right) of the report and my homework.
         I, John Lee, is the only writer of this report.
     }}
 \author{李约瀚 \\ 14130140331 \\ qinka@live.com \\ me@qinka.pro}
@@ -17,6 +19,7 @@
 \def\vConcreteMathematics{\textit{Concrete Mathematics}}
 
 \begin{document}
+    
     \maketitle
     
     \section{No.5, Chapter 8}
@@ -83,6 +86,7 @@
     According to \vConcreteMathematics's Eq.(2.28), the Eq.(\ref{eq:dctn:base}) will
     be transform to
     \begin{equation}
+        \label{eq:dctn:base2}
         F_N(u,v)=%
             \frac{2C(u)C(v)}{N}%
             \left(\sum\limits_{p=0}^{N-1}\cos\frac{(2p+1)u\pi}{2N}\right)^2%
