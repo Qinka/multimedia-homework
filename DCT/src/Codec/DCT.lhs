@@ -43,23 +43,22 @@ base2DDCT arr = A.imap withCoe $ A.fold (+) 0 $ A.fold (+) 0 $ A.zipWith5 com is
         is = A.replicate (A.lift $ Z :. rowM :. colN :. All  :. colN) $ mk rowM
         js = A.replicate (A.lift $ Z :. rowM :. colN :. rowM :. All ) $ mk colN
         ar = A.replicate (A.lift $ Z :. rowM :. colN :. All  :. All ) arr
-        cFunc :: (A.Floating e,ToFloating Int e) => Exp Int -> Exp e
-        cFunc i = 2 * up / A.sqrt (A.toFloating rowM * A.toFloating colN)
-          where up = A.ifThenElse (i A.== 0) (A.sqrt 2 / 2) 1
+        cFunc :: (A.Floating e) => Exp Int -> Exp e
+        cFunc i = A.ifThenElse (i A.== 0) (A.sqrt 2 / 2) 1
         withCoe :: (ToFloating Int e,Elt e,A.Floating e) => Exp DIM2 -> Exp e -> Exp e
         withCoe sh a = let Z :. u :. v = A.unlift sh :: Z :. Exp Int :. Exp Int
-                       in cFunc u * cFunc v * a
+                       in 2 * cFunc u * cFunc v * a / A.sqrt (A.toFloating $ rowM * colN)
 \end{code}
 
-
-\begin{code}
+\begin{spec}
+test :: Num e => [e]
 test = [ 200,202,189,188,189,175,175,175
        , 200,203,198,188,189,182,178,175
        , 203,200,200,195,200,187,185,175
        , 200,200,200,200,197,187,187,187
-       , 200,205,200,200,195,188,187,187
+       , 200,205,200,200,195,188,187,175
        , 200,200,200,200,200,190,187,175
        , 205,200,199,200,191,187,187,175
        , 210,200,200,200,188,185,187,186
        ]
-\end{code}
+\end{spec}
