@@ -4,7 +4,7 @@
 
 \begin{code}
 module Codec.DCT
-       ( base2DDCT
+       ( dct2
        ) where
 
 import Data.Array.Accelerate (All(..),Elt,Z(..),Acc,Array,DIM1,DIM2,Shape,Exp,(:.)(..),ToFloating,(?|))
@@ -26,14 +26,24 @@ where $i,u=0,1,\cdots,M-1$,$j,v=0,1,...,N-1$, and the constants $C(u)$ and $C(v)
     \end{array}\right.
 \end{equation}
 
+
 \begin{code}
-base2DDCT :: (Elt e,A.Num e,A.Floating e,ToFloating Int e) => Acc (Array DIM2 e) -> Acc (Array DIM2 e)
-base2DDCT arr = A.imap withCoe $ A.fold (+) 0 $ A.fold (+) 0 $ A.zipWith5 com is js us vs ar
+cFunc :: (A.Floating e) => Exp Int -> Exp e
+cFunc i = A.ifThenElse (i A.== 0) (A.sqrt 2 / 2) 1
+mk :: (Elt e,A.Floating e,A.ToFloating Int e) => Exp Int -> Acc (Array DIM1 e)
+mk len = A.generate (A.lift $ Z :. len) $ \i' ->
+  let i = A.toFloating $ A.unindex1 i'
+  in (2 * i + 1) * A.pi / 2 / (A.toFloating len)
+mkCoe :: (ToFloating Int e,Elt e,A.Floating e) => Exp Int -> Exp Int -> Exp DIM2 -> Exp e
+mkCoe rowM colN sh = let Z :. u :. v = A.unlift sh :: Z :. Exp Int :. Exp Int
+                     in 2 * cFunc u * cFunc v / A.sqrt (A.toFloating $ rowM * colN)
+\end{code}
+
+
+\begin{code}
+dct2 :: (Elt e,A.Num e,A.Floating e,ToFloating Int e) => Acc (Array DIM2 e) -> Acc (Array DIM2 e)
+dct2 arr = A.zipWith (*) cs $ A.fold (+) 0 $ A.fold (+) 0 $ A.zipWith5 com is js us vs ar
   where Z :. rowM :. colN = A.unlift (A.shape arr) :: Z :. Exp Int :. Exp Int
-        mk :: (Elt e,A.Floating e,A.ToFloating Int e) => Exp Int -> Acc (Array DIM1 e)
-        mk len = A.generate (A.lift $ Z :. len) $ \i' ->
-          let i = A.toFloating $ A.unindex1 i'
-          in (2 * i + 1) * A.pi / 2 / (A.toFloating len)
         com :: (Elt e,A.Floating e,ToFloating Int e) => Exp e -> Exp e -> Exp e -> Exp e -> Exp e -> Exp e
         com i j u v f =  A.cos (i*u) * A.cos(j*v) * f
         bu = A.generate  (A.lift $ Z :. rowM) $ \i -> A.toFloating $ A.unindex1 i
@@ -43,12 +53,27 @@ base2DDCT arr = A.imap withCoe $ A.fold (+) 0 $ A.fold (+) 0 $ A.zipWith5 com is
         is = A.replicate (A.lift $ Z :. rowM :. colN :. All  :. colN) $ mk rowM
         js = A.replicate (A.lift $ Z :. rowM :. colN :. rowM :. All ) $ mk colN
         ar = A.replicate (A.lift $ Z :. rowM :. colN :. All  :. All ) arr
-        cFunc :: (A.Floating e) => Exp Int -> Exp e
-        cFunc i = A.ifThenElse (i A.== 0) (A.sqrt 2 / 2) 1
-        withCoe :: (ToFloating Int e,Elt e,A.Floating e) => Exp DIM2 -> Exp e -> Exp e
-        withCoe sh a = let Z :. u :. v = A.unlift sh :: Z :. Exp Int :. Exp Int
-                       in 2 * cFunc u * cFunc v * a / A.sqrt (A.toFloating $ rowM * colN)
+        cs = A.generate  (A.lift $ Z :. rowM :. colN) (mkCoe rowM colN)
 \end{code}
+
+\begin{code}
+idct2 :: (Elt e,A.Num e,A.Floating e,ToFloating Int e) => Acc (Array DIM2 e) -> Acc (Array DIM2 e)
+idct2 arr = A.fold (+) 0 $ A.fold (+) 0 $ A.zipWith6 icom cs is js us vs ar
+  where Z :. rowM :. colN = A.unlift (A.shape arr) :: Z :. Exp Int :. Exp Int
+        icom :: (Elt e,A.Floating e,ToFloating Int e) => Exp e -> Exp e -> Exp e -> Exp e -> Exp e -> Exp e -> Exp e
+        icom c i j u v f = c * A.cos (i*u) * A.cos(j*v) * f
+        bu = A.generate  (A.lift $ Z :. rowM) $ \i -> A.toFloating $ A.unindex1 i
+        bv = A.generate  (A.lift $ Z :. colN) $ \i -> A.toFloating $ A.unindex1 i
+        is = A.replicate (A.lift $ Z :. All  :. colN :. rowM :. colN) $ mk rowM
+        js = A.replicate (A.lift $ Z :. rowM :. All  :. rowM :. colN) $ mk colN
+        us = A.replicate (A.lift $ Z :. rowM :. colN :. All  :. colN) bu
+        vs = A.replicate (A.lift $ Z :. rowM :. colN :. rowM :. All ) bv
+        ar = A.replicate (A.lift $ Z :. rowM :. colN :. All  :. All ) arr
+        cs = A.replicate (A.lift $ Z :. rowM :. colN :. All  :. All ) $
+             A.generate  (A.lift $ Z :. rowM :. colN) (mkCoe rowM colN)
+\end{code}
+
+
 
 \begin{spec}
 test :: Num e => [e]
