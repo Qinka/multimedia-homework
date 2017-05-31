@@ -12,6 +12,7 @@ maintainer:          qinka@live.com
 -- copyright:           
 -- category:            
 build-type:          Simple
+extra-doc-files:     report.tex
 extra-source-files:  ChangeLog.md
 cabal-version:       >=1.10
 
