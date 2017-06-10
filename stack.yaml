@@ -15,7 +15,7 @@
 # resolver:
 #  name: custom-snapshot
 #  location: "./custom-snapshot.yaml"
-resolver: nightly-2017-05-24
+resolver: nightly-2017-06-02
 
 # User packages to be built.
 # Various formats can be used as shown in the example below.
@@ -38,6 +38,7 @@ resolver: nightly-2017-05-24
 packages:
 - QHuffman
 - DCT
+- hpeg
 # Dependency packages to be pulled from upstream that are not in the resolver
 # (e.g., acme-missiles-0.3)
 extra-deps: []
