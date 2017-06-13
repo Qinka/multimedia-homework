@@ -1,0 +1,36 @@
+CUDA device query (Driver API, statically linked)
+CUDA driver version 8.0
+Detected 1 CUDA capable device
+
+Device 0: GeForce GTX 960
+  CUDA capability:                    5.2
+  CUDA cores:                         1024 cores in 8 multiprocessors (128 cores/MP)
+  Global memory:                      2 GB
+  Constant memory:                    64 kB
+  Shared memory per block:            48 kB
+  Registers per block:                65536
+  Warp size:                          32
+  Maximum threads per multiprocessor: 2048
+  Maximum threads per block:          1024
+  Maximum grid dimensions:            2147483647 x 65535 x 65535
+  Maximum block dimensions:           1024 x 1024 x 64
+  GPU clock rate:                     1.1775 GHz
+  Memory clock rate:                  3.505 GHz
+  Memory bus width:                   128-bit
+  L2 cache size:                      1 MB
+  Maximum texture dimensions         
+    1D:                               65536
+    2D:                               65536 x 65536
+    3D:                               4096 x 4096 x 4096
+  Texture alignment:                  512 B
+  Maximum memory pitch:               2 GB
+  Concurrent kernel execution:        Yes
+  Concurrent copy and execution:      Yes, with 2 copy engines
+  Runtime limit on kernel execution:  Yes
+  Integrated GPU sharing host memory: No
+  Host page-locked memory mapping:    Yes
+  ECC memory support:                 No
+  Unified addressing (UVA):           Yes
+  PCI bus/location:                   1/0
+  Compute mode:                       Default
+    Multiple contexts are allowed on the device simultaneously
