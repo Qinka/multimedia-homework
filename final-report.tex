@@ -241,19 +241,33 @@ read from the file.
 \subsection{Codes}
 \label{sec:hpeg:codes}
 
-The codes of Hpeg has 5 modules. And they are organized as .
+The codes of Hpeg has 5 modules. And they are organized as what figure \ref{fig:hpeg:layout} showed.
 
 \begin{figure}
     \centering
-    \caption{??}
     \begin{tikzpicture}[baseline=-.3em]
     \path
-        (0,0)       node[draw,rectangle] (graphicshpeg){\vbox{\hbox{module}\hbox{Graphics.Hpeg}}}
-     ++ (-2,-2)     node[draw,rectangle] (graphicshpegcolor){\vbox{\hbox{module}\hbox{Graphics.Hpeg.Color}}}
+        (0,0)       node[draw,rectangle] (gh){\vbox{\hbox{module}\hbox{Graphics.Hpeg}}}
+     ++ (-4,-2)     node[draw,rectangle] (ghc){\vbox{\hbox{module}\hbox{Graphics.Hpeg.Color}}}
+     ++ (2,0)       node[draw,rectangle] (ghd){\vbox{\hbox{module}\hbox{Graphics.Hpeg.DCT}}}
+     ++ (2,0)       node[draw,rectangle] (ghm){\vbox{\hbox{module}\hbox{Graphics.Hpeg.Matrix}}}
+     ++ (2,0)       node[draw,rectangle] (ghs){\vbox{\hbox{module}\hbox{Graphics.Hpeg.Store}}}
      ;
-     \draw [->] (graphicshpegcolor)--(graphicshpeg);
+     \draw [->] (ghc)--(gh);
+     \draw [->] (ghd)--(gh);
+     \draw [->] (ghm)--(gh);
+     \draw [->] (ghs)--(gh);
     \end{tikzpicture}
+    \caption{The layout of the Hpeg's codes}
+    \label{fig:hpeg:layout}
 \end{figure}
+
+The codes in module \verb|Graphics.Hpeg.Color| convert the colors between the different color spaces.
+The module \verb|Graphics.Hpeg.DCT| is about the DCT.
+The module \verb|Graphics.Hpeg.Matrix| is about transforming or converting between different kinds of representation of matrix.
+The module \verb|Graphics.Hpeg.Store| is about the form when store the data.
+The module \verb|Graphics.Hpeg| is encapsulation of all the method, which convert the images between the Windows BMP and Hpeg.
+
 
 
 
